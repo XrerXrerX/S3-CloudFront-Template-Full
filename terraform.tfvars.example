@@ -1,0 +1,100 @@
+# ========================================
+# S3 + CloudFront Configuration Example
+# ========================================
+# Copy this file to terraform.tfvars and customize for your project
+# 
+# IMPORTANT: Bucket names must be globally unique across all AWS accounts!
+
+# Project Configuration
+project = "myapp"          # Your application name
+env     = "dev"            # Environment: dev, staging, prod
+
+# AWS Region
+region = "ap-southeast-1"  # Change to your preferred region
+
+# S3 Bucket Configuration
+# Bucket name must be globally unique - use your domain or unique identifier
+bucket_name = "myapp-assets-dev-ap-southeast-1"
+
+# CORS Configuration - Add your domain origins here
+# This allows your web application to upload files directly to S3
+cors_allowed_origins = [
+  "https://myapp.com",
+  "https://www.myapp.com", 
+  "https://dev.myapp.com",
+  "https://staging.myapp.com",
+  "http://localhost:3000",    # React development server
+  "http://localhost:5173",    # Vite development server
+  "http://localhost:8080",    # Other development servers
+  "http://localhost:8000"     # Laravel development server
+]
+
+# CloudFront Configuration
+# PriceClass_100: North America and Europe only (cheapest)
+# PriceClass_200: North America, Europe, Asia, Middle East, and Africa (recommended)
+# PriceClass_All: All locations (most expensive)
+price_class = "PriceClass_200"
+
+# S3 Bucket Configuration
+lifecycle_days    = 30        # Days before files move to Intelligent Tiering
+enable_versioning = true      # Enable file versioning
+
+# IAM Configuration
+# Prefixes that EC2/ECS instances can access
+# Use these to organize your files and control access
+allowed_prefixes = [
+  "users/*",      # User uploads (avatars, documents)
+  "public/*",     # Public assets (logos, icons)
+  "images/*",     # Image assets (product images, banners)
+  "documents/*",  # Document uploads (PDFs, docs)
+  "uploads/*",    # General uploads
+  "temp/*"        # Temporary files
+]
+
+# IAM Roles Configuration
+# Set to false if you don't need these roles
+enable_ec2 = true   # Create EC2 instance profile
+enable_ecs = true   # Create ECS task and execution roles
+
+# ========================================
+# Optional: Custom Domain Configuration
+# ========================================
+# Uncomment and configure if you want to use custom domain
+# 
+# IMPORTANT: 
+# 1. ACM certificate must be created in us-east-1 region
+# 2. DNS records must be configured to point to CloudFront
+# 3. Certificate must be validated before use
+
+# aliases = [
+#   "cdn.myapp.com",
+#   "assets.myapp.com",
+#   "static.myapp.com"
+# ]
+
+# acm_certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/your-cert-id"
+
+# ========================================
+# Advanced Configuration (Optional)
+# ========================================
+
+# Uncomment if you want to use remote state storage
+# backend_config = {
+#   bucket = "my-terraform-state-bucket"
+#   key    = "s3-cloudfront/terraform.tfstate"
+#   region = "ap-southeast-1"
+# }
+
+# ========================================
+# Notes and Best Practices:
+# ========================================
+# 1. Bucket names must be globally unique across all AWS accounts
+# 2. For custom domains, ACM certificate must be in us-east-1 region
+# 3. CORS origins should include all domains that will upload to S3
+# 4. PriceClass_200 is recommended for most applications
+# 5. Enable only the IAM roles you need to minimize permissions
+# 6. Use meaningful prefixes to organize your files
+# 7. Consider using lifecycle policies to manage costs
+# 8. Always use HTTPS for production applications
+# 9. Regularly review and update CORS origins
+# 10. Monitor CloudFront usage and costs
