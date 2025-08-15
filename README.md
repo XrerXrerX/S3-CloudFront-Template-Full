@@ -27,7 +27,7 @@ Konfigurasi Terraform untuk membuat S3 bucket dengan CloudFront CDN yang aman un
    ```
 
 <p align="center">
-  <img src="./assets/architecture.png" alt="S3 + CloudFront Architecture" width="100%">
+  <img src="./apply_success.png" alt="S3 + CloudFront Architecture" width="100%">
 </p>
 
 ## ✨ Features
