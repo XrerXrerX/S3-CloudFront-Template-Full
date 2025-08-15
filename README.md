@@ -26,6 +26,10 @@ Konfigurasi Terraform untuk membuat S3 bucket dengan CloudFront CDN yang aman un
    terraform apply
    ```
 
+<p align="center">
+  <img src="./assets/architecture.png" alt="S3 + CloudFront Architecture" width="100%">
+</p>
+
 ## ✨ Features
 
 - 🔒 **S3 Bucket**: Private bucket dengan encryption, versioning, dan lifecycle policies
